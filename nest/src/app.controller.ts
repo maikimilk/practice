@@ -1,32 +1,33 @@
-import {Controller, Delete, Get, Post} from '@nestjs/common';
+import { Controller, Delete, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
+import {name} from "supertest";
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getDoneTodo(): string {
+  getDoneTodo(): ToDo[] {
     return this.appService.getDoneTodo();
   }
 
   @Get()
-  getNameTodo(): string{
+  getNameTodo(name:string): ToDo[]{
     return this.appService.getNameTodo();
   }
 
   @Post()
-  addTodo(): string{
-    return this.appService.addTodo();
+  addTodo(name:string,date:Date,summary:string): number {
+    return this.appService.addTodo(name, date, summary);
   }
 
   @Post()
-  changeTodo(): string{
-    return this.appService.changeTodo();
+  changeTodo(): string {
+    return this.appService.changeTodo( id, name, date, summary, isFinished);
   }
 
   @Delete()
-  delTodo(): string{
-    return this.appService.delTodo();
+  delTodo(): string {
+    return this.appService.delTodo(id);
   }
 }
