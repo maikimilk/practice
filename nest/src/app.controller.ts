@@ -1,33 +1,44 @@
-import { Controller, Delete, Get, Post } from '@nestjs/common';
-import { AppService } from './app.service';
-import {name} from "supertest";
+import { Controller, Delete, Get, Post, Body, Param } from '@nestjs/common';
+import { AppService, ToDo } from './app.service';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
+  @Get('/done')
   getDoneTodo(): ToDo[] {
     return this.appService.getDoneTodo();
   }
 
-  @Get()
-  getNameTodo(name:string): ToDo[]{
-    return this.appService.getNameTodo();
+  @Get('/name/:name')
+  getNameTodo(@Param('name') name: string): ToDo[] {
+    return this.appService.getNameTodo(name);
   }
 
-  @Post()
-  addTodo(name:string,date:Date,summary:string): number {
+  @Post('/add')
+  addTodo(
+      @Body('name') name: string,
+      @Body('date') date: Date,
+      @Body('summary') summary: string,
+  ): number {
     return this.appService.addTodo(name, date, summary);
   }
 
-  @Post()
-  changeTodo(): string {
-    return this.appService.changeTodo( id, name, date, summary, isFinished);
+  @Post('/change/:id')
+  changeTodo(
+      @Param('id') id: number,
+      @Body('name') name: string,
+      @Body('date') date: Date,
+      @Body('summary') summary: string,
+      @Body('isFinished') isFinished: boolean,
+  ): string {
+    return this.appService.changeTodo(id, name, date, summary, isFinished);
   }
 
-  @Delete()
-  delTodo(): string {
+  @Delete('/delete/:id')
+  delTodo(
+      @Param('id') id: number,
+  ): string {
     return this.appService.delTodo(id);
   }
 }

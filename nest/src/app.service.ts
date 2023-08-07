@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-class ToDo {
+export class ToDo {
   constructor(
       private id: number,
       private name: string,
